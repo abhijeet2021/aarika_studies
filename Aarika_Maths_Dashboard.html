@@ -1,0 +1,1363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Aarika's Maths Dashboard – Std 3 Sem 2</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet"/>
+<style>
+/* ═══════════════════════════════════════════════
+   ROOT VARIABLES & RESET
+═══════════════════════════════════════════════ */
+:root{
+  --blue:#5B6EF5;--blue-l:#EEF0FF;--blue-d:#3A4DD4;
+  --teal:#00B4A0;--teal-l:#E0FAF7;--teal-d:#00877A;
+  --pink:#FF5FA0;--pink-l:#FFF0F6;--pink-d:#D43A7D;
+  --orange:#FF7A2F;--orange-l:#FFF3EC;--orange-d:#C95700;
+  --purple:#9B59E8;--purple-l:#F3EEFF;--purple-d:#6C3DBF;
+  --yellow:#FFC72C;--yellow-l:#FFFBEC;
+  --green:#2ECC71;--green-l:#EDFFF5;
+  --red:#E74C3C;--red-l:#FEECEC;
+  --bg:#F7F8FF;--card:#FFFFFF;--text:#2D2D44;--muted:#7A7A9A;
+  --radius:18px;--shadow:0 6px 30px rgba(91,110,245,.13);
+  --shadow-sm:0 2px 12px rgba(0,0,0,.08);
+  font-family:'Nunito',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+
+/* ═══ HEADER ═══════════════════════════════════ */
+header{
+  background:linear-gradient(135deg,#5B6EF5 0%,#9B59E8 50%,#FF5FA0 100%);
+  padding:22px 30px 18px;display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:999;box-shadow:0 4px 20px rgba(91,110,245,.3);
+}
+.logo{display:flex;align-items:center;gap:12px}
+.logo-icon{font-size:32px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.2))}
+.logo-text h1{font-family:'Fredoka One',cursive;color:#fff;font-size:22px;line-height:1}
+.logo-text p{color:rgba(255,255,255,.8);font-size:12px;font-weight:600;letter-spacing:.5px}
+.stars-bar{display:flex;gap:4px;font-size:22px;cursor:pointer;filter:drop-shadow(0 1px 3px rgba(0,0,0,.2))}
+
+/* ═══ NAV TABS ══════════════════════════════════ */
+nav{
+  background:#fff;display:flex;gap:0;overflow-x:auto;
+  box-shadow:0 2px 12px rgba(0,0,0,.08);position:sticky;top:80px;z-index:998;
+}
+nav::-webkit-scrollbar{height:3px}
+nav::-webkit-scrollbar-thumb{background:var(--blue);border-radius:4px}
+.tab{
+  padding:14px 22px;font-size:13.5px;font-weight:700;cursor:pointer;
+  border:none;background:none;color:var(--muted);white-space:nowrap;
+  border-bottom:3px solid transparent;transition:all .25s;display:flex;align-items:center;gap:7px;
+}
+.tab:hover{color:var(--text);background:#f7f8ff}
+.tab.active{color:var(--blue);border-bottom-color:var(--blue);background:var(--blue-l)}
+.tab .tab-icon{font-size:18px}
+
+/* ═══ PAGES ═════════════════════════════════════ */
+.page{display:none;padding:28px 24px 60px;max-width:960px;margin:0 auto;animation:fadeIn .35s ease}
+.page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+/* ═══ SECTION CARDS ════════════════════════════ */
+.card{
+  background:var(--card);border-radius:var(--radius);
+  box-shadow:var(--shadow-sm);padding:24px;margin-bottom:22px;
+}
+.card-header{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.card-icon{font-size:26px}
+.card-title{font-family:'Fredoka One',cursive;font-size:20px}
+
+/* ═══ QUICK NOTES ═══════════════════════════════ */
+.notes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
+.note-pill{
+  border-radius:14px;padding:14px 16px;font-size:13px;font-weight:700;
+  display:flex;align-items:flex-start;gap:10px;line-height:1.5;
+}
+.note-pill .ni{font-size:22px;flex-shrink:0}
+
+/* ═══ GRID 2-COL ════════════════════════════════ */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:640px){.two-col{grid-template-columns:1fr}}
+
+/* ═══ CHAPTER BANNER ════════════════════════════ */
+.chapter-banner{
+  border-radius:var(--radius);padding:22px 26px;margin-bottom:24px;
+  display:flex;align-items:center;gap:16px;
+}
+.chapter-banner h2{font-family:'Fredoka One',cursive;font-size:26px;color:#fff}
+.chapter-banner p{color:rgba(255,255,255,.88);font-size:13px;font-weight:600;margin-top:3px}
+.chapter-banner .big-icon{font-size:54px;filter:drop-shadow(0 3px 6px rgba(0,0,0,.2))}
+
+/* ═══ BUTTONS ═══════════════════════════════════ */
+.btn{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:10px 20px;border-radius:50px;border:none;
+  font-family:'Nunito',sans-serif;font-weight:700;font-size:13.5px;
+  cursor:pointer;transition:all .2s;
+}
+.btn-blue{background:var(--blue);color:#fff}
+.btn-blue:hover{background:var(--blue-d);transform:translateY(-2px);box-shadow:0 6px 18px rgba(91,110,245,.35)}
+.btn-teal{background:var(--teal);color:#fff}
+.btn-teal:hover{background:var(--teal-d);transform:translateY(-2px)}
+.btn-pink{background:var(--pink);color:#fff}
+.btn-pink:hover{background:var(--pink-d);transform:translateY(-2px)}
+.btn-orange{background:var(--orange);color:#fff}
+.btn-orange:hover{background:var(--orange-d);transform:translateY(-2px)}
+.btn-purple{background:var(--purple);color:#fff}
+.btn-purple:hover{background:var(--purple-d);transform:translateY(-2px)}
+.btn-outline{background:#fff;border:2.5px solid;color:inherit}
+.btn-group{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+
+/* ═══════════════════════════════════════════════
+   HOME PAGE
+═══════════════════════════════════════════════ */
+.home-hero{
+  background:linear-gradient(135deg,#5B6EF5,#9B59E8,#FF5FA0);
+  border-radius:var(--radius);padding:34px 30px;text-align:center;
+  margin-bottom:28px;position:relative;overflow:hidden;
+}
+.home-hero::before{
+  content:'';position:absolute;top:-40px;right:-40px;
+  width:160px;height:160px;border-radius:50%;
+  background:rgba(255,255,255,.08);
+}
+.home-hero h1{font-family:'Fredoka One',cursive;font-size:32px;color:#fff;margin-bottom:6px}
+.home-hero p{color:rgba(255,255,255,.9);font-size:15px;font-weight:600}
+.home-hero .hero-emoji{font-size:60px;margin-bottom:12px;display:block;animation:bounce 2s infinite}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+
+.topic-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:18px;margin-bottom:24px}
+.topic-card{
+  background:var(--card);border-radius:var(--radius);padding:22px 18px;
+  text-align:center;cursor:pointer;transition:all .25s;box-shadow:var(--shadow-sm);
+  border:2.5px solid transparent;
+}
+.topic-card:hover{transform:translateY(-6px);box-shadow:var(--shadow)}
+.topic-card.t1{border-color:var(--blue);background:linear-gradient(145deg,#fff,var(--blue-l))}
+.topic-card.t2{border-color:var(--teal);background:linear-gradient(145deg,#fff,var(--teal-l))}
+.topic-card.t3{border-color:var(--purple);background:linear-gradient(145deg,#fff,var(--purple-l))}
+.topic-card.t4{border-color:var(--orange);background:linear-gradient(145deg,#fff,var(--orange-l))}
+.topic-card .tc-icon{font-size:46px;margin-bottom:10px}
+.topic-card h3{font-family:'Fredoka One',cursive;font-size:16px;margin-bottom:4px}
+.topic-card p{font-size:11.5px;color:var(--muted);font-weight:600}
+.topic-card .tc-count{
+  display:inline-block;margin-top:10px;padding:3px 12px;
+  border-radius:20px;font-size:11px;font-weight:800;
+}
+
+.progress-card{background:var(--card);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow-sm)}
+.progress-card h3{font-family:'Fredoka One',cursive;font-size:18px;margin-bottom:14px}
+.prog-row{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.prog-label{font-size:13px;font-weight:700;min-width:140px}
+.prog-bar-bg{flex:1;background:#eee;border-radius:10px;height:14px;overflow:hidden}
+.prog-bar{height:100%;border-radius:10px;transition:width 1.2s cubic-bezier(.25,.8,.25,1)}
+.prog-pct{font-size:12px;font-weight:800;min-width:36px;text-align:right}
+
+/* ═══════════════════════════════════════════════
+   TIME PAGE
+═══════════════════════════════════════════════ */
+.clock-wrapper{display:flex;flex-direction:column;align-items:center;gap:20px}
+#liveClock{width:220px;height:220px;filter:drop-shadow(0 8px 24px rgba(91,110,245,.25))}
+.clock-time-display{
+  text-align:center;
+  font-family:'Fredoka One',cursive;font-size:28px;color:var(--blue);
+}
+.clock-time-display small{font-family:'Nunito',sans-serif;font-size:13px;color:var(--muted);display:block;font-weight:600}
+
+.time-fact-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+.time-fact{
+  border-radius:14px;padding:16px;text-align:center;
+  background:var(--blue-l);border:2px solid rgba(91,110,245,.2);
+}
+.time-fact .tf-val{font-family:'Fredoka One',cursive;font-size:28px;color:var(--blue)}
+.time-fact .tf-label{font-size:11.5px;font-weight:700;color:var(--muted);margin-top:3px}
+
+.clock-demo-btns{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:8px}
+.clock-demo-btn{
+  padding:8px 16px;border-radius:50px;border:2.5px solid var(--blue);
+  background:#fff;color:var(--blue);font-weight:700;font-size:13px;cursor:pointer;transition:all .2s;
+}
+.clock-demo-btn:hover,.clock-demo-btn.active{background:var(--blue);color:#fff;transform:scale(1.05)}
+
+.conv-calc{background:var(--blue-l);border-radius:14px;padding:18px}
+.conv-calc h4{font-weight:800;margin-bottom:12px;color:var(--blue-d)}
+.conv-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.conv-input{
+  width:90px;padding:8px 12px;border-radius:10px;border:2px solid var(--blue);
+  font-family:'Nunito',sans-serif;font-size:15px;font-weight:700;text-align:center;
+  outline:none;
+}
+.conv-result{
+  background:var(--blue);color:#fff;border-radius:10px;
+  padding:8px 16px;font-weight:800;font-size:15px;min-width:120px;text-align:center;
+}
+
+.ampm-box{display:flex;gap:14px;flex-wrap:wrap}
+.ampm-card{
+  flex:1;min-width:140px;border-radius:14px;padding:16px;text-align:center;
+}
+.ampm-card.am{background:var(--yellow-l);border:2px solid var(--yellow)}
+.ampm-card.pm{background:var(--purple-l);border:2px solid var(--purple)}
+.ampm-card .ampm-title{font-family:'Fredoka One',cursive;font-size:22px}
+.ampm-card.am .ampm-title{color:#C79000}
+.ampm-card.pm .ampm-title{color:var(--purple)}
+.ampm-card p{font-size:12px;font-weight:600;color:var(--muted);margin-top:4px}
+
+/* ═══════════════════════════════════════════════
+   CALENDAR PAGE
+═══════════════════════════════════════════════ */
+.cal-wrap{max-width:380px;margin:0 auto}
+.cal-header{
+  background:linear-gradient(135deg,var(--teal),var(--blue));
+  border-radius:14px 14px 0 0;padding:16px;text-align:center;color:#fff;
+}
+.cal-header h3{font-family:'Fredoka One',cursive;font-size:22px}
+.cal-header p{font-size:12px;opacity:.85;font-weight:600;margin-top:2px}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);border-left:1px solid #e0e7ff;border-top:1px solid #e0e7ff;background:#fff;border-radius:0 0 14px 14px;overflow:hidden}
+.cal-cell{
+  border-right:1px solid #e0e7ff;border-bottom:1px solid #e0e7ff;
+  padding:8px 4px;text-align:center;font-size:12.5px;font-weight:700;
+  min-height:40px;display:flex;align-items:center;justify-content:center;
+}
+.cal-cell.day-name{background:var(--teal-l);color:var(--teal-d);font-size:11px;font-weight:800}
+.cal-cell.empty{background:#fafbff}
+.cal-cell.today{background:var(--teal);color:#fff;border-radius:50%;transform:scale(0.85)}
+.cal-cell.sunday{color:var(--red)}
+.cal-cell.saturday{color:var(--blue)}
+.cal-cell:not(.day-name):not(.empty):hover{background:var(--teal-l);cursor:pointer}
+
+.months-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px}
+.month-chip{
+  border-radius:10px;padding:10px 12px;font-size:13px;font-weight:700;
+  display:flex;align-items:center;gap:8px;cursor:default;
+  transition:transform .2s;
+}
+.month-chip:hover{transform:scale(1.04)}
+.month-chip .mn{font-size:18px}
+
+.days-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.day-badge{
+  padding:6px 14px;border-radius:50px;font-size:12.5px;font-weight:700;
+  background:var(--teal-l);color:var(--teal-d);border:2px solid var(--teal);
+}
+
+.cal-conv-examples{display:flex;flex-direction:column;gap:10px}
+.cal-ex{
+  border-radius:12px;padding:14px;display:flex;align-items:center;gap:12px;
+  font-size:13px;font-weight:700;
+}
+.cal-ex .ce-q{flex:1;color:var(--text)}
+.cal-ex .ce-a{color:#fff;padding:5px 14px;border-radius:30px;font-size:13px;white-space:nowrap}
+
+/* ═══════════════════════════════════════════════
+   FRACTIONS PAGE
+═══════════════════════════════════════════════ */
+.frac-visual{display:flex;flex-direction:column;align-items:center;gap:16px;padding:10px 0}
+.frac-pizza{position:relative;width:180px;height:180px}
+.frac-pizza svg{width:100%;height:100%}
+.frac-label{font-family:'Fredoka One',cursive;font-size:22px;text-align:center}
+.frac-sublabel{font-size:13px;font-weight:600;color:var(--muted);text-align:center;margin-top:2px}
+
+.frac-bar-wrap{margin:8px 0}
+.frac-bar-label{font-size:13px;font-weight:700;margin-bottom:5px}
+.frac-bar-bg{height:28px;border-radius:30px;background:#eee;overflow:hidden;border:2px solid #ddd}
+.frac-bar-fill{height:100%;border-radius:30px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#fff;transition:width .8s cubic-bezier(.25,.8,.25,1)}
+
+.compare-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:8px}
+.compare-item{display:flex;flex-direction:column;align-items:center;gap:6px}
+.compare-frac{
+  font-family:'Fredoka One',cursive;font-size:26px;
+  width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  color:#fff;box-shadow:var(--shadow-sm);
+}
+.compare-sign{font-family:'Fredoka One',cursive;font-size:28px}
+
+.frac-ops{display:flex;flex-direction:column;gap:14px}
+.frac-op-row{
+  background:var(--purple-l);border-radius:12px;padding:14px 16px;
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  border-left:5px solid var(--purple);
+}
+.frac-op-row .fo-q{font-family:'Fredoka One',cursive;font-size:18px;color:var(--purple-d);flex:1;min-width:160px}
+.frac-op-row .fo-step{font-size:12px;font-weight:600;color:var(--muted);flex:1;min-width:140px}
+.frac-op-row .fo-ans{
+  background:var(--purple);color:#fff;padding:6px 16px;
+  border-radius:30px;font-family:'Fredoka One',cursive;font-size:18px;
+}
+.frac-op-row.add{background:var(--green-l);border-left-color:var(--green)}
+.frac-op-row.add .fo-q{color:var(--green)}
+.frac-op-row.add .fo-ans{background:var(--green)}
+.frac-op-row.sub{background:var(--red-l);border-left-color:var(--red)}
+.frac-op-row.sub .fo-q{color:var(--red)}
+.frac-op-row.sub .fo-ans{background:var(--red)}
+
+/* ═══════════════════════════════════════════════
+   DATA PAGE
+═══════════════════════════════════════════════ */
+.data-chart-wrap{display:flex;flex-direction:column;gap:10px}
+.data-bar-row{display:flex;align-items:center;gap:12px}
+.data-bar-label{min-width:110px;font-size:13px;font-weight:700;text-align:right;flex-shrink:0}
+.data-bar-track{flex:1;background:#eee;border-radius:10px;height:32px;overflow:hidden;border:1.5px solid rgba(0,0,0,.05)}
+.data-bar-fill{
+  height:100%;border-radius:10px;
+  display:flex;align-items:center;padding-left:12px;
+  font-size:12.5px;font-weight:800;color:#fff;
+  transition:width 1.2s cubic-bezier(.25,.8,.25,1);width:0%;
+}
+.data-bar-val{min-width:36px;font-weight:800;font-size:13.5px;flex-shrink:0}
+
+.tally-table{width:100%;border-collapse:collapse;font-size:13px}
+.tally-table th{
+  background:var(--orange);color:#fff;padding:10px 14px;
+  text-align:left;font-weight:800;font-size:13px;
+}
+.tally-table td{padding:10px 14px;border-bottom:1px solid #f0f0f0;font-weight:600}
+.tally-table tr:nth-child(even) td{background:var(--orange-l)}
+.tally-table tr:hover td{background:#fff3e0;cursor:default}
+.tally-marks{letter-spacing:3px;font-size:15px;font-weight:700;color:var(--orange-d)}
+
+.pictograph-grid{display:flex;flex-direction:column;gap:10px}
+.picto-row{display:flex;align-items:center;gap:10px;background:#fff;border-radius:10px;padding:10px 14px;border:1.5px solid #eee}
+.picto-name{min-width:120px;font-weight:700;font-size:13px}
+.picto-icons{flex:1;display:flex;flex-wrap:wrap;gap:3px}
+.picto-icon{font-size:18px;animation:popIn .4s ease both}
+@keyframes popIn{from{opacity:0;transform:scale(0)}to{opacity:1;transform:scale(1)}}
+.picto-count{font-family:'Fredoka One',cursive;font-size:18px;color:var(--orange-d);min-width:28px}
+
+/* ═══ EXAMPLE BOX ═══════════════════════════════ */
+.example-box{
+  border-radius:14px;padding:16px 18px;margin:8px 0;
+  border-left:5px solid;font-size:13.5px;
+}
+.example-box h4{font-weight:800;margin-bottom:6px;font-size:14px}
+.example-box .ex-steps{display:flex;flex-direction:column;gap:4px}
+.example-box .ex-step{font-size:13px;line-height:1.6}
+.example-box .ex-ans{font-weight:800;color:var(--green)}
+
+/* ═══ QUIZ MINI ════════════════════════════════ */
+.quiz-box{
+  background:var(--yellow-l);border:2px solid var(--yellow);
+  border-radius:14px;padding:18px;margin-top:16px;
+}
+.quiz-box h4{font-family:'Fredoka One',cursive;font-size:18px;color:#C79000;margin-bottom:10px}
+.quiz-q{font-weight:700;font-size:14px;margin-bottom:10px}
+.quiz-opts{display:flex;flex-wrap:wrap;gap:8px}
+.quiz-opt{
+  padding:8px 18px;border-radius:30px;border:2.5px solid #ddd;
+  background:#fff;font-weight:700;font-size:13px;cursor:pointer;transition:all .2s;
+}
+.quiz-opt:hover{transform:scale(1.06)}
+.quiz-opt.correct{background:#2ECC71;color:#fff;border-color:#2ECC71}
+.quiz-opt.wrong{background:var(--red);color:#fff;border-color:var(--red)}
+.quiz-feedback{margin-top:10px;font-weight:800;font-size:14px;min-height:22px}
+
+/* ═══ TOOLTIP ════════════════════════════════== */
+.tooltip-wrap{position:relative;display:inline-block}
+.tooltip-wrap .tip{
+  display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);
+  background:#2D2D44;color:#fff;border-radius:8px;padding:6px 12px;
+  font-size:12px;font-weight:600;white-space:nowrap;z-index:99;
+}
+.tooltip-wrap:hover .tip{display:block}
+
+/* ═══ SCROLLBAR ════════════════════════════════ */
+::-webkit-scrollbar{width:7px;height:7px}
+::-webkit-scrollbar-track{background:#f0f0f0}
+::-webkit-scrollbar-thumb{background:var(--blue);border-radius:10px}
+
+/* ═══ RESPONSIVE ════════════════════════════════ */
+@media(max-width:520px){
+  header{padding:14px 16px}
+  .logo-text h1{font-size:17px}
+  .page{padding:16px 12px 50px}
+  .home-hero h1{font-size:24px}
+  .chapter-banner h2{font-size:20px}
+  .chapter-banner .big-icon{font-size:36px}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ HEADER ══════════════════════════════════════════════════════════ -->
+<header>
+  <div class="logo">
+    <span class="logo-icon">🎒</span>
+    <div class="logo-text">
+      <h1>Aarika's Maths Magic!</h1>
+      <p>STD 3 · SEM 2 · MAHARASHTRA SSC BOARD</p>
+    </div>
+  </div>
+  <div class="stars-bar" id="starsBar" title="Your progress stars!">⭐⭐⭐⭐⭐</div>
+</header>
+
+<!-- ═══ NAV ═════════════════════════════════════════════════════════════ -->
+<nav id="mainNav">
+  <button class="tab active" onclick="showPage('home')" data-page="home"><span class="tab-icon">🏠</span>Home</button>
+  <button class="tab" onclick="showPage('time')" data-page="time"><span class="tab-icon">⏰</span>Time</button>
+  <button class="tab" onclick="showPage('calendar')" data-page="calendar"><span class="tab-icon">📅</span>Calendar</button>
+  <button class="tab" onclick="showPage('fractions')" data-page="fractions"><span class="tab-icon">🍕</span>Fractions</button>
+  <button class="tab" onclick="showPage('data')" data-page="data"><span class="tab-icon">📊</span>Data</button>
+</nav>
+
+<!-- ════════════════════════════════════════════════════════════════════
+  HOME PAGE
+══════════════════════════════════════════════════════════════════════ -->
+<div class="page active" id="page-home">
+  <div class="home-hero">
+    <span class="hero-emoji">🌟</span>
+    <h1>Hello, Aarika! 👋</h1>
+    <p>Your super maths revision is ready! Pick a topic below and let's learn together.</p>
+  </div>
+
+  <div class="topic-cards">
+    <div class="topic-card t1" onclick="showPage('time')">
+      <div class="tc-icon">⏰</div>
+      <h3>Measurement of Time</h3>
+      <p>Clocks, Hours, Minutes & Conversions</p>
+      <span class="tc-count" style="background:var(--blue-l);color:var(--blue)">📌 3 Sections</span>
+    </div>
+    <div class="topic-card t2" onclick="showPage('calendar')">
+      <div class="tc-icon">📅</div>
+      <h3>The Calendar</h3>
+      <p>Months, Days, Weeks & Conversions</p>
+      <span class="tc-count" style="background:var(--teal-l);color:var(--teal-d)">📌 3 Sections</span>
+    </div>
+    <div class="topic-card t3" onclick="showPage('fractions')">
+      <div class="tc-icon">🍕</div>
+      <h3>Fractions</h3>
+      <p>Half, Quarter, Compare & Calculate</p>
+      <span class="tc-count" style="background:var(--purple-l);color:var(--purple)">📌 4 Sections</span>
+    </div>
+    <div class="topic-card t4" onclick="showPage('data')">
+      <div class="tc-icon">📊</div>
+      <h3>Handling Data</h3>
+      <p>Tally Marks, Pictographs & Tables</p>
+      <span class="tc-count" style="background:var(--orange-l);color:var(--orange-d)">📌 3 Sections</span>
+    </div>
+  </div>
+
+  <div class="progress-card">
+    <h3>📈 How Well Do You Know These Topics?</h3>
+    <div class="prog-row">
+      <div class="prog-label">⏰ Measurement of Time</div>
+      <div class="prog-bar-bg"><div class="prog-bar" style="width:0%;background:var(--blue)" data-w="82"></div></div>
+      <div class="prog-pct" style="color:var(--blue)">Study!</div>
+    </div>
+    <div class="prog-row">
+      <div class="prog-label">📅 The Calendar</div>
+      <div class="prog-bar-bg"><div class="prog-bar" style="width:0%;background:var(--teal)" data-w="76"></div></div>
+      <div class="prog-pct" style="color:var(--teal)">Study!</div>
+    </div>
+    <div class="prog-row">
+      <div class="prog-label">🍕 Fractions</div>
+      <div class="prog-bar-bg"><div class="prog-bar" style="width:0%;background:var(--purple)" data-w="70"></div></div>
+      <div class="prog-pct" style="color:var(--purple)">Study!</div>
+    </div>
+    <div class="prog-row">
+      <div class="prog-label">📊 Handling Data</div>
+      <div class="prog-bar-bg"><div class="prog-bar" style="width:0%;background:var(--orange)" data-w="88"></div></div>
+      <div class="prog-pct" style="color:var(--orange)">Study!</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-icon">💡</span><h3 class="card-title" style="color:var(--purple)">How to Use This Dashboard</h3></div>
+    <div class="notes-grid">
+      <div class="note-pill" style="background:var(--blue-l);color:var(--blue-d)"><span class="ni">👆</span>Click any topic card above to jump to that chapter</div>
+      <div class="note-pill" style="background:var(--teal-l);color:var(--teal-d)"><span class="ni">🕹️</span>Try the interactive examples – click buttons to see answers!</div>
+      <div class="note-pill" style="background:var(--purple-l);color:var(--purple-d)"><span class="ni">🧠</span>Read the Quick Notes before attempting the test paper</div>
+      <div class="note-pill" style="background:var(--orange-l);color:var(--orange-d)"><span class="ni">❓</span>Try the mini quizzes to test yourself!</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════════
+  TIME PAGE
+══════════════════════════════════════════════════════════════════════ -->
+<div class="page" id="page-time">
+  <div class="chapter-banner" style="background:linear-gradient(135deg,var(--blue),#7B6CF5)">
+    <span class="big-icon">⏰</span>
+    <div>
+      <h2>Measurement of Time</h2>
+      <p>Learn to read clocks, understand AM &amp; PM, and convert units of time</p>
+    </div>
+  </div>
+
+  <!-- Quick Notes -->
+  <div class="card">
+    <div class="card-header"><span class="card-icon">📌</span><h3 class="card-title" style="color:var(--blue)">Quick Notes to Remember!</h3></div>
+    <div class="notes-grid">
+      <div class="note-pill" style="background:var(--blue-l);color:var(--blue-d)"><span class="ni">🔵</span><div><strong>1 hour = 60 minutes</strong><br/>The minute hand goes round once in 1 hour</div></div>
+      <div class="note-pill" style="background:var(--teal-l);color:var(--teal-d)"><span class="ni">🟢</span><div><strong>1 day = 24 hours</strong><br/>A full day has 24 hours</div></div>
+      <div class="note-pill" style="background:var(--orange-l);color:var(--orange-d)"><span class="ni">🟠</span><div><strong>Half hour = 30 min</strong><br/>Minute hand at 6</div></div>
+      <div class="note-pill" style="background:var(--purple-l);color:var(--purple-d)"><span class="ni">🟣</span><div><strong>Quarter hour = 15 min</strong><br/>Minute hand at 3</div></div>
+      <div class="note-pill" style="background:var(--yellow-l);color:#C79000"><span class="ni">☀️</span><div><strong>AM = Morning</strong><br/>12 midnight → 12 noon</div></div>
+      <div class="note-pill" style="background:var(--pink-l);color:var(--pink-d)"><span class="ni">🌙</span><div><strong>PM = Evening/Night</strong><br/>12 noon → 12 midnight</div></div>
+      <div class="note-pill" style="background:var(--green-l);color:#1A7A45"><span class="ni">📅</span><div><strong>1 year = 365 days</strong><br/>= 8,760 hours</div></div>
+      <div class="note-pill" style="background:var(--red-l);color:var(--red)"><span class="ni">📆</span><div><strong>1 week = 7 days</strong><br/>= 168 hours</div></div>
+    </div>
+  </div>
+
+  <!-- Live Clock -->
+  <div class="two-col">
+    <div class="card">
+      <div class="card-header"><span class="card-icon">🕐</span><h3 class="card-title" style="color:var(--blue)">Live Clock</h3></div>
+      <div class="clock-wrapper">
+        <svg id="liveClock" viewBox="0 0 220 220">
+          <!-- Face -->
+          <circle cx="110" cy="110" r="106" fill="white" stroke="#5B6EF5" stroke-width="6"/>
+          <circle cx="110" cy="110" r="98" fill="#EEF0FF"/>
+          <!-- Hour markers -->
+          <g id="clockMarkers"></g>
+          <!-- Hour numbers -->
+          <text x="110" y="28" text-anchor="middle" font-family="Fredoka One,cursive" font-size="16" fill="#5B6EF5">12</text>
+          <text x="192" y="116" text-anchor="middle" font-family="Fredoka One,cursive" font-size="16" fill="#5B6EF5">3</text>
+          <text x="110" y="204" text-anchor="middle" font-family="Fredoka One,cursive" font-size="16" fill="#5B6EF5">6</text>
+          <text x="28" y="116" text-anchor="middle" font-family="Fredoka One,cursive" font-size="16" fill="#5B6EF5">9</text>
+          <!-- Hands -->
+          <line id="hourHand" x1="110" y1="110" x2="110" y2="52" stroke="#2D2D44" stroke-width="7" stroke-linecap="round"/>
+          <line id="minHand" x1="110" y1="110" x2="110" y2="34" stroke="#5B6EF5" stroke-width="5" stroke-linecap="round"/>
+          <line id="secHand" x1="110" y1="110" x2="110" y2="28" stroke="#FF5FA0" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="110" cy="110" r="7" fill="#5B6EF5"/>
+          <circle cx="110" cy="110" r="3" fill="white"/>
+        </svg>
+        <div class="clock-time-display">
+          <span id="digitalTime">--:--:--</span>
+          <small id="digitalAMPM">-- --</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-icon">🎮</span><h3 class="card-title" style="color:var(--blue)">Clock Positions</h3></div>
+      <p style="font-size:13px;color:var(--muted);font-weight:600;margin-bottom:12px">Click a time to see how the clock looks! 👇</p>
+      <div class="clock-demo-btns">
+        <button class="clock-demo-btn" onclick="demoTime(8,0,'8 o\'clock — Minute hand at 12, Hour hand at 8')">8 o'clock</button>
+        <button class="clock-demo-btn" onclick="demoTime(8,30,'Half past 8 — Minute hand at 6')">8:30</button>
+        <button class="clock-demo-btn" onclick="demoTime(12,15,'Quarter past 12 — Minute hand at 3')">12:15</button>
+        <button class="clock-demo-btn" onclick="demoTime(3,45,'Quarter to 4 — Minute hand at 9')">3:45</button>
+        <button class="clock-demo-btn" onclick="demoTime(5,25,'25 past 5 — Minute hand passed 5')">5:25</button>
+        <button class="clock-demo-btn live-btn" onclick="startLiveClock()">▶ Live</button>
+      </div>
+      <div id="clockDesc" style="margin-top:14px;background:var(--blue-l);border-radius:10px;padding:12px;font-size:13px;font-weight:700;color:var(--blue-d);min-height:42px"></div>
+    </div>
+  </div>
+
+  <!-- Key Conversions -->
+  <div class="card">
+    <div class="card-header"><span class="card-icon">🔢</span><h3 class="card-title" style="color:var(--blue)">Key Conversions</h3></div>
+    <div class="time-fact-grid">
+      <div class="time-fact"><div class="tf-val">60</div><div class="tf-label">minutes in 1 hour</div></div>
+      <div class="time-fact"><div class="tf-val">24</div><div class="tf-label">hours in 1 day</div></div>
+      <div class="time-fact"><div class="tf-val">1,440</div><div class="tf-label">minutes in 1 day</div></div>
+      <div class="time-fact"><div class="tf-val">30</div><div class="tf-label">minutes in half hour</div></div>
+      <div class="time-fact"><div class="tf-val">15</div><div class="tf-label">minutes in quarter hour</div></div>
+      <div class="time-fact" style="background:var(--teal-l);border-color:rgba(0,180,160,.2)"><div class="tf-val" style="color:var(--teal)">365</div><div class="tf-label">days in 1 year</div></div>
+      <div class="time-fact" style="background:var(--orange-l);border-color:rgba(255,122,47,.2)"><div class="tf-val" style="color:var(--orange)">8,760</div><div class="tf-label">hours in 1 year</div></div>
+      <div class="time-fact" style="background:var(--pink-l);border-color:rgba(255,95,160,.2)"><div class="tf-val" style="color:var(--pink)">168</div><div class="tf-label">hours in 1 week</div></div>
+    </div>
+  </div>
+
+  <!-- Calculator + Examples -->
+  <div class="two-col">
+    <div class="card">
+      <div class="card-header"><span class="card-icon">🧮</span><h3 class="card-title" style="color:var(--blue)">Hours → Minutes</h3></div>
+      <div class="conv-calc">
+        <h4>Type hours and minutes to convert:</h4>
+        <div class="conv-row">
+          <input class="conv-input" type="number" id="hInput" placeholder="hr" min="0" max="24" value="5" oninput="calcMins()"/>
+          <span style="font-weight:800">hr</span>
+          <input class="conv-input" type="number" id="mInput" placeholder="min" min="0" max="59" value="15" oninput="calcMins()"/>
+          <span style="font-weight:800">min =</span>
+        </div>
+        <div class="conv-result" id="minsResult">315 minutes</div>
+        <div id="minsSteps" style="margin-top:10px;font-size:12.5px;font-weight:600;color:var(--blue-d);line-height:1.8"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-icon">💡</span><h3 class="card-title" style="color:var(--blue)">AM &amp; PM</h3></div>
+      <div class="ampm-box">
+        <div class="ampm-card am">
+          <div class="ampm-title">☀️ AM</div>
+          <p>12 midnight to 12 noon<br/>Morning time</p>
+          <p style="margin-top:8px;font-size:12px"><strong>Examples:</strong><br/>3:30 AM = 3:30 at night<br/>11:00 AM = 11 in morning</p>
+        </div>
+        <div class="ampm-card pm">
+          <div class="ampm-title">🌙 PM</div>
+          <p>12 noon to 12 midnight<br/>Afternoon &amp; Night</p>
+          <p style="margin-top:8px;font-size:12px"><strong>Examples:</strong><br/>5:00 PM = 5 in evening<br/>9:30 PM = 9:30 at night</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Worked Examples -->
+  <div class="card">
+    <div class="card-header"><span class="card-icon">📝</span><h3 class="card-title" style="color:var(--blue)">Worked Examples</h3></div>
+    <div class="example-box" style="background:var(--blue-l);border-color:var(--blue)">
+      <h4 style="color:var(--blue-d)">Example 1: Convert 5 hours 15 minutes to minutes</h4>
+      <div class="ex-steps">
+        <div class="ex-step">📌 We know: <strong>1 hour = 60 minutes</strong></div>
+        <div class="ex-step">▶ 5 hours = 5 × 60 = 300 minutes</div>
+        <div class="ex-step">▶ Add the extra 15 minutes: 300 + 15</div>
+        <div class="ex-step ex-ans">✅ Answer = 315 minutes</div>
+      </div>
+    </div>
+    <div class="example-box" style="background:var(--teal-l);border-color:var(--teal);margin-top:10px">
+      <h4 style="color:var(--teal-d)">Example 2: Convert 1 year to hours</h4>
+      <div class="ex-steps">
+        <div class="ex-step">📌 1 year = 365 days, 1 day = 24 hours</div>
+        <div class="ex-step">▶ 365 × 24 = 8,760</div>
+        <div class="ex-step ex-ans">✅ Answer = 8,760 hours</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mini Quiz -->
+  <div class="quiz-box">
+    <h4>🧠 Quick Quiz – Time!</h4>
+    <div class="quiz-q" id="tq-q">How many minutes are in 2 hours?</div>
+    <div class="quiz-opts" id="tq-opts">
+      <button class="quiz-opt" onclick="checkQ('tq',this,'wrong')">100</button>
+      <button class="quiz-opt" onclick="checkQ('tq',this,'correct')">120</button>
+      <button class="quiz-opt" onclick="checkQ('tq',this,'wrong')">60</button>
+      <button class="quiz-opt" onclick="checkQ('tq',this,'wrong')">140</button>
+    </div>
+    <div class="quiz-feedback" id="tq-fb"></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════════
+  CALENDAR PAGE
+══════════════════════════════════════════════════════════════════════ -->
+<div class="page" id="page-calendar">
+  <div class="chapter-banner" style="background:linear-gradient(135deg,var(--teal),var(--blue))">
+    <span class="big-icon">📅</span>
+    <div>
+      <h2>The Calendar</h2>
+      <p>Months, days of the week, and converting time units</p>
+    </div>
+  </div>
+
+  <!-- Quick Notes -->
+  <div class="card">
+    <div class="card-header"><span class="card-icon">📌</span><h3 class="card-title" style="color:var(--teal)">Quick Notes to Remember!</h3></div>
+    <div class="notes-grid">
+      <div class="note-pill" style="background:var(--teal-l);color:var(--teal-d)"><span class="ni">📆</span><div><strong>1 year = 365 days</strong><br/>Leap year = 366 days</div></div>
+      <div class="note-pill" style="background:var(--blue-l);color:var(--blue-d)"><span class="ni">🔵</span><div><strong>Leap year every 4 years</strong></div></div>
+      <div class="note-pill" style="background:var(--orange-l);color:var(--orange-d)"><span class="ni">📅</span><div><strong>1 year = 12 months</strong><br/>1 month ≈ 30 days</div></div>
+      <div class="note-pill" style="background:var(--purple-l);color:var(--purple-d)"><span class="ni">🗓️</span><div><strong>1 week = 7 days</strong></div></div>
+      <div class="note-pill" style="background:var(--yellow-l);color:#C79000"><span class="ni">1️⃣</span><div><strong>1st month = January</strong></div></div>
+      <div class="note-pill" style="background:var(--pink-l);color:var(--pink-d)"><span class="ni">8️⃣</span><div><strong>8th month = August</strong></div></div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <!-- March 2026 Calendar -->
+    <div class="card">
+      <div class="card-header"><span class="card-icon">🗓️</span><h3 class="card-title" style="color:var(--teal)">March 2026</h3></div>
+      <div class="cal-wrap">
+        <div class="cal-header">
+          <h3>March 2026</h3>
+          <p>March has 31 days · Starts on Sunday</p>
+        </div>
+        <div class="cal-grid" id="marchCal"></div>
+      </div>
+      <p style="margin-top:12px;font-size:12px;color:var(--muted);font-weight:600">
+        🔴 Red = Sunday &nbsp;|&nbsp; 🔵 Blue = Saturday &nbsp;|&nbsp; 🟢 Highlighted = Today
+      </p>
+    </div>
+
+    <!-- Months List -->
+    <div class="card">
+      <div class="card-header"><span class="card-icon">🌸</span><h3 class="card-title" style="color:var(--teal)">12 Months in Order</h3></div>
+      <div class="months-grid" id="monthsGrid"></div>
+    </div>
+  </div>
+
+  <!-- Days of the Week -->
+  <div class="card">
+    <div class="card-header"><span class="card-icon">📋</span><h3 class="card-title" style="color:var(--teal)">Days of the Week</h3></div>
+    <div class="days-row">
+      <div class="day-badge" style="background:var(--red-l);border-color:var(--red);color:var(--red)">1. Sunday</div>
+      <div class="day-badge">2. Monday</div>
+      <div class="day-badge">3. Tuesday</div>
+      <div class="day-badge">4. Wednesday</div>
+      <div class="day-badge">5. Thursday</div>
+      <div class="day-badge">6. Friday</div>
+      <div class="day-badge" style="background:var(--blue-l);border-color:var(--blue);color:var(--blue)">7. Saturday</div>
+    </div>
+    <p style="margin-top:12px;font-size:13px;font-weight:600;color:var(--muted)">💡 <strong>Trick:</strong> "Saat din hote hain ek hafte mein" — Seven days make one week!</p>
+  </div>
+
+  <!-- Conversions -->
+  <div class="card">
+    <div class="card-header"><span class="card-icon">🔢</span><h3 class="card-title" style="color:var(--teal)">Conversion Examples</h3></div>
+    <div class="cal-conv-examples">
+      <div class="cal-ex" style="background:var(--teal-l);border-left:5px solid var(--teal)">
+        <div class="ce-q">7 months = 7 × 30 = ?</div>
+        <div class="ce-a" style="background:var(--teal)">210 days</div>
+      </div>
+      <div class="cal-ex" style="background:var(--blue-l);border-left:5px solid var(--blue)">
+        <div class="ce-q">9 weeks = 9 × 7 = ?</div>
+        <div class="ce-a" style="background:var(--blue)">63 days</div>
+      </div>
+      <div class="cal-ex" style="background:var(--purple-l);border-left:5px solid var(--purple)">
+        <div class="ce-q">7 years = 7 × 365 = ?</div>
+        <div class="ce-a" style="background:var(--purple)">2,555 days</div>
+      </div>
+      <div class="cal-ex" style="background:var(--orange-l);border-left:5px solid var(--orange)">
+        <div class="ce-q">8 years = 8 × 365 = ?</div>
+        <div class="ce-a" style="background:var(--orange)">2,920 days</div>
+      </div>
+      <div class="cal-ex" style="background:var(--pink-l);border-left:5px solid var(--pink)">
+        <div class="ce-q">16 weeks = 16 × 7 = ?</div>
+        <div class="ce-a" style="background:var(--pink)">112 days</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Example -->
+  <div class="example-box" style="background:var(--teal-l);border-color:var(--teal)">
+    <h4 style="color:var(--teal-d)">Example: How old is someone born in 2017 in 2026?</h4>
+    <div class="ex-steps">
+      <div class="ex-step">📌 Count forward from birth year to current year</div>
+      <div class="ex-step">▶ 2026 − 2017 = 9</div>
+      <div class="ex-step ex-ans">✅ The person is 9 years old!</div>
+    </div>
+  </div>
+
+  <div class="quiz-box">
+    <h4>🧠 Quick Quiz – Calendar!</h4>
+    <div class="quiz-q" id="cq-q">How many days are in 4 weeks?</div>
+    <div class="quiz-opts" id="cq-opts">
+      <button class="quiz-opt" onclick="checkQ('cq',this,'wrong')">24</button>
+      <button class="quiz-opt" onclick="checkQ('cq',this,'correct')">28</button>
+      <button class="quiz-opt" onclick="checkQ('cq',this,'wrong')">30</button>
+      <button class="quiz-opt" onclick="checkQ('cq',this,'wrong')">32</button>
+    </div>
+    <div class="quiz-feedback" id="cq-fb"></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════════
+  FRACTIONS PAGE
+══════════════════════════════════════════════════════════════════════ -->
+<div class="page" id="page-fractions">
+  <div class="chapter-banner" style="background:linear-gradient(135deg,var(--purple),var(--pink))">
+    <span class="big-icon">🍕</span>
+    <div>
+      <h2>Fractions</h2>
+      <p>Half, Quarter, Three-Quarters — Compare, Add &amp; Subtract</p>
+    </div>
+  </div>
+
+  <!-- Quick Notes -->
+  <div class="card">
+    <div class="card-header"><span class="card-icon">📌</span><h3 class="card-title" style="color:var(--purple)">Quick Notes to Remember!</h3></div>
+    <div class="notes-grid">
+      <div class="note-pill" style="background:var(--purple-l);color:var(--purple-d)"><span class="ni">½</span><div><strong>Half = 1/2</strong><br/>Divide whole into 2 equal parts</div></div>
+      <div class="note-pill" style="background:var(--pink-l);color:var(--pink-d)"><span class="ni">¼</span><div><strong>Quarter = 1/4</strong><br/>Divide whole into 4 equal parts</div></div>
+      <div class="note-pill" style="background:var(--blue-l);color:var(--blue-d)"><span class="ni">¾</span><div><strong>Three-Quarters = 3/4</strong><br/>Put 3 quarters together</div></div>
+      <div class="note-pill" style="background:var(--teal-l);color:var(--teal-d)"><span class="ni">➕</span><div><strong>Add same denominator:</strong><br/>Add only the top numbers</div></div>
+      <div class="note-pill" style="background:var(--orange-l);color:var(--orange-d)"><span class="ni">➖</span><div><strong>Subtract same denominator:</strong><br/>Subtract only the top numbers</div></div>
+      <div class="note-pill" style="background:var(--green-l);color:#1A7A45"><span class="ni">📊</span><div><strong>Compare same denominator:</strong><br/>Bigger top number = bigger fraction</div></div>
+    </div>
+  </div>
+
+  <!-- Visual Fraction Explorer -->
+  <div class="two-col">
+    <div class="card">
+      <div class="card-header"><span class="card-icon">🍕</span><h3 class="card-title" style="color:var(--purple)">Visual Explorer</h3></div>
+      <p style="font-size:13px;color:var(--muted);font-weight:600;margin-bottom:12px">Click a button to see the fraction! 👇</p>
+      <div class="frac-visual">
+        <svg id="fracPizza" viewBox="0 0 200 200" width="180" height="180">
+          <circle cx="100" cy="100" r="90" fill="#f5f5f5" stroke="#ddd" stroke-width="2"/>
+          <path id="fp1" d="" fill="#9B59E8" opacity="0"/>
+          <path id="fp2" d="" fill="#FF5FA0" opacity="0"/>
+          <path id="fp3" d="" fill="#5B6EF5" opacity="0"/>
+          <path id="fp4" d="" fill="#00B4A0" opacity="0"/>
+          <circle cx="100" cy="100" r="90" fill="none" stroke="#bbb" stroke-width="2"/>
+        </svg>
+        <div class="frac-label" id="fracLabel" style="color:var(--purple)">Click a button!</div>
+        <div class="frac-sublabel" id="fracSub"></div>
+      </div>
+      <div class="btn-group" style="justify-content:center">
+        <button class="btn btn-purple" onclick="showFrac('half')">½ Half</button>
+        <button class="btn btn-pink" onclick="showFrac('quarter')">¼ Quarter</button>
+        <button class="btn btn-blue" onclick="showFrac('threequarter')">¾ Three-Quarters</button>
+        <button class="btn btn-teal" onclick="showFrac('whole')">1 Whole</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-icon">📏</span><h3 class="card-title" style="color:var(--purple)">Fraction Bars</h3></div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div>
+          <div class="frac-bar-label" style="color:var(--purple)">Whole (1)</div>
+          <div class="frac-bar-bg"><div class="frac-bar-fill" style="background:var(--purple);width:0%" data-w="100">1</div></div>
+        </div>
+        <div>
+          <div class="frac-bar-label" style="color:var(--pink)">Three-Quarters (3/4)</div>
+          <div class="frac-bar-bg"><div class="frac-bar-fill" style="background:var(--pink);width:0%" data-w="75">3/4</div></div>
+        </div>
+        <div>
+          <div class="frac-bar-label" style="color:var(--blue)">Half (1/2)</div>
+          <div class="frac-bar-bg"><div class="frac-bar-fill" style="background:var(--blue);width:0%" data-w="50">1/2</div></div>
+        </div>
+        <div>
+          <div class="frac-bar-label" style="color:var(--teal)">Quarter (1/4)</div>
+          <div class="frac-bar-bg"><div class="frac-bar-fill" style="background:var(--teal);width:0%" data-w="25">1/4</div></div>
+        </div>
+      </div>
+      <p style="margin-top:14px;font-size:12.5px;color:var(--muted);font-weight:600">
+        💡 1 &gt; 3/4 &gt; 1/2 &gt; 1/4<br/>
+        Bigger the top number (same bottom), bigger the fraction!
+      </p>
+    </div>
+  </div>
+
+  <!-- Compare Fractions -->
+  <div class="card">
+    <div class="card-header"><span class="card-icon">⚖️</span><h3 class="card-title" style="color:var(--purple)">Comparing Fractions</h3></div>
+    <p style="font-size:13px;font-weight:600;color:var(--muted);margin-bottom:14px">
+      When the <strong>bottom number (denominator) is the same</strong>, the fraction with the <strong>bigger top number</strong> is bigger!
+    </p>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div style="background:var(--purple-l);border-radius:12px;padding:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <span style="font-family:'Fredoka One',cursive;font-size:22px;color:var(--purple-d)">4/10</span>
+        <span style="font-family:'Fredoka One',cursive;font-size:28px;color:var(--green)"> &gt; </span>
+        <span style="font-family:'Fredoka One',cursive;font-size:22px;color:var(--purple-d)">3/10</span>
+        <span style="font-size:12px;font-weight:600;color:var(--muted);margin-left:6px">because 4 &gt; 3</span>
+      </div>
+      <div style="background:var(--pink-l);border-radius:12px;padding:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <span style="font-family:'Fredoka One',cursive;font-size:22px;color:var(--pink-d)">3/11</span>
+        <span style="font-family:'Fredoka One',cursive;font-size:28px;color:var(--red)"> &lt; </span>
+        <span style="font-family:'Fredoka One',cursive;font-size:22px;color:var(--pink-d)">10/11</span>
+        <span style="font-size:12px;font-weight:600;color:var(--muted);margin-left:6px">because 3 &lt; 10</span>
+      </div>
+      <div style="background:var(--blue-l);border-radius:12px;padding:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <span style="font-family:'Fredoka One',cursive;font-size:22px;color:var(--blue-d)">8/10</span>
+        <span style="font-family:'Fredoka One',cursive;font-size:28px;color:var(--orange)"> &lt; </span>
+        <span style="font-family:'Fredoka One',cursive;font-size:22px;color:var(--blue-d)">9/10</span>
+        <span style="font-size:12px;font-weight:600;color:var(--muted);margin-left:6px">because 8 &lt; 9</span>
+      </div>
+    </div>
+    <div style="margin-top:14px;background:var(--yellow-l);border-radius:12px;padding:14px;border:2px solid var(--yellow)">
+      <div style="font-weight:800;color:#C79000;margin-bottom:6px;font-size:14px">⬆️ Ascending Order (small to big):</div>
+      <div style="font-family:'Fredoka One',cursive;font-size:18px;color:var(--text)">1/10 &lt; 3/10 &lt; 4/10 &lt; 7/10 &lt; 9/10</div>
+    </div>
+    <div style="margin-top:10px;background:var(--orange-l);border-radius:12px;padding:14px;border:2px solid var(--orange)">
+      <div style="font-weight:800;color:var(--orange-d);margin-bottom:6px;font-size:14px">⬇️ Descending Order (big to small):</div>
+      <div style="font-family:'Fredoka One',cursive;font-size:18px;color:var(--text)">9/10 &gt; 7/10 &gt; 4/10 &gt; 3/10 &gt; 1/10</div>
+    </div>
+  </div>
+
+  <!-- Add & Subtract -->
+  <div class="card">
+    <div class="card-header"><span class="card-icon">➕➖</span><h3 class="card-title" style="color:var(--purple)">Add &amp; Subtract Fractions</h3></div>
+    <p style="font-size:13px;font-weight:700;color:var(--muted);margin-bottom:14px">
+      💡 <strong>Rule:</strong> When bottom numbers are the same — just add/subtract the top numbers. Bottom stays the same!
+    </p>
+    <div class="frac-ops">
+      <div class="frac-op-row add">
+        <div class="fo-q">3/7 + 4/7 = ?</div>
+        <div class="fo-step">3 + 4 = 7, same bottom<br/>7/7 = 1 (whole!)</div>
+        <div class="fo-ans">= 1</div>
+      </div>
+      <div class="frac-op-row add">
+        <div class="fo-q">3/12 + 4/12 + 4/12 = ?</div>
+        <div class="fo-step">3 + 4 + 4 = 11, bottom stays 12</div>
+        <div class="fo-ans">= 11/12</div>
+      </div>
+      <div class="frac-op-row add">
+        <div class="fo-q">2/9 + 4/9 = ?</div>
+        <div class="fo-step">2 + 4 = 6, bottom stays 9</div>
+        <div class="fo-ans">= 6/9</div>
+      </div>
+      <div class="frac-op-row sub">
+        <div class="fo-q">5/10 − 2/10 = ?</div>
+        <div class="fo-step">5 − 2 = 3, bottom stays 10</div>
+        <div class="fo-ans">= 3/10</div>
+      </div>
+      <div class="frac-op-row sub">
+        <div class="fo-q">12/15 − 9/15 = ?</div>
+        <div class="fo-step">12 − 9 = 3, bottom stays 15</div>
+        <div class="fo-ans">= 3/15</div>
+      </div>
+      <div class="frac-op-row sub">
+        <div class="fo-q">9/12 − 8/12 = ?</div>
+        <div class="fo-step">9 − 8 = 1, bottom stays 12</div>
+        <div class="fo-ans">= 1/12</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Real Life -->
+  <div class="card">
+    <div class="card-header"><span class="card-icon">🌍</span><h3 class="card-title" style="color:var(--purple)">Fractions in Real Life</h3></div>
+    <div class="notes-grid">
+      <div class="note-pill" style="background:var(--teal-l);color:var(--teal-d)"><span class="ni">⏰</span><div><strong>Quarter of an hour</strong><br/>60 ÷ 4 = <strong>15 minutes</strong></div></div>
+      <div class="note-pill" style="background:var(--orange-l);color:var(--orange-d)"><span class="ni">💰</span><div><strong>Quarter of ₹80</strong><br/>80 ÷ 4 = <strong>₹20</strong></div></div>
+      <div class="note-pill" style="background:var(--purple-l);color:var(--purple-d)"><span class="ni">⚖️</span><div><strong>Quarter of 12 kg</strong><br/>12 ÷ 4 = <strong>3 kg</strong></div></div>
+      <div class="note-pill" style="background:var(--blue-l);color:var(--blue-d)"><span class="ni">½</span><div><strong>Half + Quarter = ?</strong><br/>= <strong>Three-Quarters</strong></div></div>
+    </div>
+  </div>
+
+  <div class="quiz-box">
+    <h4>🧠 Quick Quiz – Fractions!</h4>
+    <div class="quiz-q" id="fq-q">What is 3/8 + 4/8 = ?</div>
+    <div class="quiz-opts" id="fq-opts">
+      <button class="quiz-opt" onclick="checkQ('fq',this,'wrong')">7/16</button>
+      <button class="quiz-opt" onclick="checkQ('fq',this,'correct')">7/8</button>
+      <button class="quiz-opt" onclick="checkQ('fq',this,'wrong')">1/8</button>
+      <button class="quiz-opt" onclick="checkQ('fq',this,'wrong')">3/4</button>
+    </div>
+    <div class="quiz-feedback" id="fq-fb"></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════════
+  DATA PAGE
+══════════════════════════════════════════════════════════════════════ -->
+<div class="page" id="page-data">
+  <div class="chapter-banner" style="background:linear-gradient(135deg,var(--orange),var(--pink))">
+    <span class="big-icon">📊</span>
+    <div>
+      <h2>Handling Data</h2>
+      <p>Tally marks, Pictographs, and reading tables</p>
+    </div>
+  </div>
+
+  <!-- Quick Notes -->
+  <div class="card">
+    <div class="card-header"><span class="card-icon">📌</span><h3 class="card-title" style="color:var(--orange)">Quick Notes to Remember!</h3></div>
+    <div class="notes-grid">
+      <div class="note-pill" style="background:var(--orange-l);color:var(--orange-d)"><span class="ni">✏️</span><div><strong>Tally Marks</strong><br/>IIII = 4, IIII I = 5<br/>The 5th mark crosses the 4</div></div>
+      <div class="note-pill" style="background:var(--blue-l);color:var(--blue-d)"><span class="ni">🖼️</span><div><strong>Pictograph</strong><br/>Each picture = a fixed number<br/>Read the key carefully!</div></div>
+      <div class="note-pill" style="background:var(--teal-l);color:var(--teal-d)"><span class="ni">📋</span><div><strong>Table</strong><br/>Read rows and columns<br/>carefully to find answers</div></div>
+      <div class="note-pill" style="background:var(--purple-l);color:var(--purple-d)"><span class="ni">❓</span><div><strong>Most popular = highest number</strong><br/><strong>Least popular = lowest number</strong></div></div>
+    </div>
+    <div style="margin-top:14px;background:var(--orange-l);border-radius:12px;padding:14px;border:2px solid var(--orange)">
+      <div style="font-weight:800;color:var(--orange-d);margin-bottom:8px">✏️ Tally Marks Explained:</div>
+      <div style="display:flex;flex-wrap:wrap;gap:14px">
+        <div style="text-align:center;font-family:'Nunito',sans-serif">
+          <div style="font-size:22px;font-weight:800;letter-spacing:3px;color:var(--orange-d)">I</div><div style="font-size:12px;font-weight:700;color:var(--muted)">= 1</div></div>
+        <div style="text-align:center">
+          <div style="font-size:22px;font-weight:800;letter-spacing:3px;color:var(--orange-d)">II</div><div style="font-size:12px;font-weight:700;color:var(--muted)">= 2</div></div>
+        <div style="text-align:center">
+          <div style="font-size:22px;font-weight:800;letter-spacing:3px;color:var(--orange-d)">III</div><div style="font-size:12px;font-weight:700;color:var(--muted)">= 3</div></div>
+        <div style="text-align:center">
+          <div style="font-size:22px;font-weight:800;letter-spacing:3px;color:var(--orange-d)">IIII</div><div style="font-size:12px;font-weight:700;color:var(--muted)">= 4</div></div>
+        <div style="text-align:center">
+          <div style="font-size:22px;font-weight:800;color:var(--orange-d)">
+            <span style="text-decoration:line-through;letter-spacing:2px">IIII</span>
+          </div><div style="font-size:12px;font-weight:700;color:var(--muted)">= 5</div></div>
+        <div style="text-align:center">
+          <div style="font-size:22px;font-weight:800;color:var(--orange-d)">
+            <span style="text-decoration:line-through;letter-spacing:2px">IIII</span> II
+          </div><div style="font-size:12px;font-weight:700;color:var(--muted)">= 7</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sunday Activity Table -->
+  <div class="card">
+    <div class="card-header"><span class="card-icon">🎮</span><h3 class="card-title" style="color:var(--orange)">Sunday Evening Activities (28 Children)</h3></div>
+    <table class="tally-table">
+      <tr><th>Activity</th><th>Tally Marks</th><th>No. of Children</th></tr>
+      <tr><td>🎮 Played games</td><td><span class="tally-marks"><span style="text-decoration:line-through">IIII</span> <span style="text-decoration:line-through">IIII</span> II</span></td><td>12</td></tr>
+      <tr><td>📺 Watched TV</td><td><span class="tally-marks"><span style="text-decoration:line-through">IIII</span> III</span></td><td>8</td></tr>
+      <tr><td>🌿 Took a walk in garden</td><td><span class="tally-marks"><span style="text-decoration:line-through">IIII</span></span></td><td>5</td></tr>
+      <tr><td>📖 Read a story book</td><td><span class="tally-marks">III</span></td><td>3</td></tr>
+    </table>
+    <div style="margin-top:16px">
+      <div class="data-chart-wrap" id="actChart"></div>
+    </div>
+    <div style="margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div style="background:var(--green-l);border-radius:10px;padding:12px;border-left:4px solid var(--green)">
+        <div style="font-size:11px;font-weight:700;color:var(--muted)">MOST POPULAR</div>
+        <div style="font-family:'Fredoka One',cursive;font-size:16px;color:var(--green)">🎮 Played Games (12)</div>
+      </div>
+      <div style="background:var(--red-l);border-radius:10px;padding:12px;border-left:4px solid var(--red)">
+        <div style="font-size:11px;font-weight:700;color:var(--muted)">LEAST POPULAR</div>
+        <div style="font-family:'Fredoka One',cursive;font-size:16px;color:var(--red)">📖 Read Book (3)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cricket Pictograph -->
+  <div class="card">
+    <div class="card-header"><span class="card-icon">🏏</span><h3 class="card-title" style="color:var(--orange)">Cricket Runs Pictograph</h3></div>
+    <p style="font-size:13px;font-weight:600;color:var(--muted);margin-bottom:14px">Each 🏏 = 10 runs</p>
+    <div class="pictograph-grid" id="cricketPicto"></div>
+    <div style="margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div style="background:var(--green-l);border-radius:10px;padding:12px;border-left:4px solid var(--green)">
+        <div style="font-size:11px;font-weight:700;color:var(--muted)">MAXIMUM RUNS</div>
+        <div style="font-family:'Fredoka One',cursive;font-size:16px;color:var(--green)">🏆 Sehwag (80)</div>
+      </div>
+      <div style="background:var(--red-l);border-radius:10px;padding:12px;border-left:4px solid var(--red)">
+        <div style="font-size:11px;font-weight:700;color:var(--muted)">MINIMUM RUNS</div>
+        <div style="font-family:'Fredoka One',cursive;font-size:16px;color:var(--red)">Zaheer (40)</div>
+      </div>
+      <div style="background:var(--blue-l);border-radius:10px;padding:12px;border-left:4px solid var(--blue)">
+        <div style="font-size:11px;font-weight:700;color:var(--muted)">SAME RUNS</div>
+        <div style="font-family:'Fredoka One',cursive;font-size:16px;color:var(--blue)">Raina &amp; Yuvraj (60)</div>
+      </div>
+      <div style="background:var(--purple-l);border-radius:10px;padding:12px;border-left:4px solid var(--purple)">
+        <div style="font-size:11px;font-weight:700;color:var(--muted)">TOTAL RUNS</div>
+        <div style="font-family:'Fredoka One',cursive;font-size:16px;color:var(--purple)">310 runs</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hobbies Data -->
+  <div class="card">
+    <div class="card-header"><span class="card-icon">🎨</span><h3 class="card-title" style="color:var(--orange)">Children's Hobbies Bar Chart</h3></div>
+    <div class="data-chart-wrap" id="hobbyChart"></div>
+    <div style="margin-top:14px;display:flex;flex-wrap:wrap;gap:10px">
+      <div style="background:var(--green-l);border-radius:10px;padding:10px 14px;border-left:4px solid var(--green);flex:1;min-width:130px">
+        <div style="font-size:11px;font-weight:700;color:var(--muted)">MOST POPULAR</div>
+        <div style="font-family:'Fredoka One',cursive;font-size:15px;color:var(--green)">💻 Computer Games (12)</div>
+      </div>
+      <div style="background:var(--red-l);border-radius:10px;padding:10px 14px;border-left:4px solid var(--red);flex:1;min-width:130px">
+        <div style="font-size:11px;font-weight:700;color:var(--muted)">LEAST POPULAR</div>
+        <div style="font-family:'Fredoka One',cursive;font-size:15px;color:var(--red)">🪙 Coin Collecting (4)</div>
+      </div>
+      <div style="background:var(--blue-l);border-radius:10px;padding:10px 14px;border-left:4px solid var(--blue);flex:1;min-width:130px">
+        <div style="font-size:11px;font-weight:700;color:var(--muted)">EQUALLY POPULAR</div>
+        <div style="font-family:'Fredoka One',cursive;font-size:15px;color:var(--blue)">🎵 Music &amp; Movies (9 each)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Crops -->
+  <div class="card">
+    <div class="card-header"><span class="card-icon">🌾</span><h3 class="card-title" style="color:var(--orange)">Crops &amp; Farmers Bar Chart</h3></div>
+    <div class="data-chart-wrap" id="cropChart"></div>
+  </div>
+
+  <div class="quiz-box">
+    <h4>🧠 Quick Quiz – Data!</h4>
+    <div class="quiz-q" id="dq-q">In the Sunday activity table, which activity was done by the LEAST children?</div>
+    <div class="quiz-opts" id="dq-opts">
+      <button class="quiz-opt" onclick="checkQ('dq',this,'wrong')">Played games</button>
+      <button class="quiz-opt" onclick="checkQ('dq',this,'wrong')">Watched TV</button>
+      <button class="quiz-opt" onclick="checkQ('dq',this,'correct')">Read a story book</button>
+      <button class="quiz-opt" onclick="checkQ('dq',this,'wrong')">Took a walk</button>
+    </div>
+    <div class="quiz-feedback" id="dq-fb"></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════════
+  JAVASCRIPT
+══════════════════════════════════════════════════════════════════════ -->
+<script>
+// ── PAGE NAVIGATION ─────────────────────────────────────────────────
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  document.querySelector(`[data-page="${id}"]`).classList.add('active');
+  // trigger animations when page shown
+  setTimeout(()=>initPage(id), 80);
+}
+
+function initPage(id){
+  if(id==='home') animateProgressBars();
+  if(id==='time') { startLiveClock(); }
+  if(id==='calendar') { buildCalendar(); buildMonths(); }
+  if(id==='fractions') { animateFracBars(); }
+  if(id==='data') { buildCharts(); buildPicto(); }
+}
+
+// ── PROGRESS BARS ───────────────────────────────────────────────────
+function animateProgressBars(){
+  document.querySelectorAll('.prog-bar').forEach(b=>{
+    const w = b.dataset.w;
+    setTimeout(()=>b.style.width=w+'%', 200);
+    b.closest('.prog-row').querySelector('.prog-pct').textContent = w+'%';
+  });
+}
+
+// ── CLOCK ───────────────────────────────────────────────────────────
+let clockInterval=null, isLive=true, demoH=0, demoM=0, demoS=0;
+
+function drawClock(h, m, s){
+  const toRad = d => (d - 90) * Math.PI / 180;
+  const cx=110, cy=110, r=100;
+  // second hand
+  const sAngle = toRad(s * 6);
+  document.getElementById('secHand').setAttribute('x2', cx + 72*Math.cos(sAngle));
+  document.getElementById('secHand').setAttribute('y2', cy + 72*Math.sin(sAngle));
+  // minute hand
+  const mAngle = toRad(m * 6 + s * 0.1);
+  document.getElementById('minHand').setAttribute('x2', cx + 76*Math.cos(mAngle));
+  document.getElementById('minHand').setAttribute('y2', cy + 76*Math.sin(mAngle));
+  // hour hand
+  const hAngle = toRad((h % 12) * 30 + m * 0.5);
+  document.getElementById('hourHand').setAttribute('x2', cx + 52*Math.cos(hAngle));
+  document.getElementById('hourHand').setAttribute('y2', cy + 52*Math.sin(hAngle));
+
+  const pad = n => String(n).padStart(2,'0');
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  const h12 = h % 12 || 12;
+  document.getElementById('digitalTime').textContent = `${pad(h12)}:${pad(m)}:${pad(s)}`;
+  document.getElementById('digitalAMPM').textContent = `${ampm} — ${h12}:${pad(m)} ${ampm}`;
+}
+
+function startLiveClock(){
+  isLive = true;
+  document.querySelectorAll('.clock-demo-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelector('.live-btn').classList.add('active');
+  document.getElementById('clockDesc').textContent = '🕐 Showing current time — watch the hands move!';
+  if(clockInterval) clearInterval(clockInterval);
+  const tick = ()=>{
+    if(!isLive) return;
+    const now = new Date();
+    drawClock(now.getHours(), now.getMinutes(), now.getSeconds());
+  };
+  tick();
+  clockInterval = setInterval(tick, 1000);
+}
+
+function demoTime(h, m, desc){
+  isLive = false;
+  if(clockInterval) clearInterval(clockInterval);
+  document.querySelectorAll('.clock-demo-btn').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+  drawClock(h, m, 0);
+  document.getElementById('clockDesc').textContent = '👆 ' + desc;
+}
+
+// ── HOURS → MINUTES CALCULATOR ──────────────────────────────────────
+function calcMins(){
+  const h = parseInt(document.getElementById('hInput').value)||0;
+  const m = parseInt(document.getElementById('mInput').value)||0;
+  const total = h*60 + m;
+  document.getElementById('minsResult').textContent = total + ' minutes';
+  document.getElementById('minsSteps').innerHTML =
+    `Step 1: ${h} hours × 60 = <strong>${h*60}</strong> minutes<br>` +
+    `Step 2: Add ${m} minutes: ${h*60} + ${m} = <strong>${total}</strong> minutes`;
+}
+
+// ── CALENDAR ─────────────────────────────────────────────────────────
+function buildCalendar(){
+  const cal = document.getElementById('marchCal');
+  if(cal.children.length) return;
+  const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  days.forEach(d=>{
+    const c = document.createElement('div');
+    c.className='cal-cell day-name';
+    c.textContent=d;
+    cal.appendChild(c);
+  });
+  // March 2026 starts on Sunday (day 0)
+  for(let i=0;i<31;i++){
+    const c = document.createElement('div');
+    c.className='cal-cell';
+    c.textContent = i+1;
+    const dow = i % 7;
+    if(dow===0) c.classList.add('sunday');
+    if(dow===6) c.classList.add('saturday');
+    if(i+1===13) c.classList.add('today'); // today is march 13
+    cal.appendChild(c);
+  }
+}
+
+const monthData = [
+  {n:'January',    e:'❄️', bg:'#E3F2FD',c:'#1565C0', days:31},
+  {n:'February',   e:'💝', bg:'#FCE4EC',c:'#C62828', days:28},
+  {n:'March',      e:'🌸', bg:'#E8F5E9',c:'#2E7D32', days:31},
+  {n:'April',      e:'🌼', bg:'#FFF9C4',c:'#F57F17', days:30},
+  {n:'May',        e:'☀️', bg:'#FFF3E0',c:'#E65100', days:31},
+  {n:'June',       e:'🌧️', bg:'#E0F7FA',c:'#006064', days:30},
+  {n:'July',       e:'🌊', bg:'#E8EAF6',c:'#283593', days:31},
+  {n:'August',     e:'🎉', bg:'#F3E5F5',c:'#6A1B9A', days:31},
+  {n:'September',  e:'🍂', bg:'#FBE9E7',c:'#BF360C', days:30},
+  {n:'October',    e:'🎃', bg:'#FFF8E1',c:'#FF6F00', days:31},
+  {n:'November',   e:'🌫️', bg:'#EFEBE9',c:'#4E342E', days:30},
+  {n:'December',   e:'🎄', bg:'#E0F2F1',c:'#00695C', days:31},
+];
+
+function buildMonths(){
+  const g = document.getElementById('monthsGrid');
+  if(g.children.length) return;
+  monthData.forEach((m,i)=>{
+    const c = document.createElement('div');
+    c.className='month-chip';
+    c.style.cssText=`background:${m.bg};color:${m.c};border:2px solid ${m.c}40`;
+    c.innerHTML=`<span class="mn">${m.e}</span><div><strong>${i+1}. ${m.n}</strong><br><span style="font-size:11px;opacity:.7">${m.days} days</span></div>`;
+    g.appendChild(c);
+  });
+}
+
+// ── FRACTIONS PIZZA ──────────────────────────────────────────────────
+function arcPath(cx,cy,r,startDeg,endDeg){
+  const s = (startDeg-90)*Math.PI/180;
+  const e = (endDeg-90)*Math.PI/180;
+  const x1=cx+r*Math.cos(s), y1=cy+r*Math.sin(s);
+  const x2=cx+r*Math.cos(e), y2=cy+r*Math.sin(e);
+  const large = (endDeg-startDeg)>180?1:0;
+  return `M${cx},${cy} L${x1},${y1} A${r},${r},0,${large},1,${x2},${y2} Z`;
+}
+
+function showFrac(type){
+  const cx=100,cy=100,r=88;
+  const slices=[
+    {id:'fp1',color:'#9B59E8'},
+    {id:'fp2',color:'#FF5FA0'},
+    {id:'fp3',color:'#5B6EF5'},
+    {id:'fp4',color:'#00B4A0'},
+  ];
+  // reset
+  slices.forEach(s=>{
+    const el=document.getElementById(s.id);
+    el.setAttribute('d','');
+    el.setAttribute('opacity','0');
+  });
+
+  const configs={
+    half:{parts:[[0,180]],label:'½ Half',sub:'1 part out of 2 equal parts',colors:['#9B59E8']},
+    quarter:{parts:[[0,90]],label:'¼ Quarter',sub:'1 part out of 4 equal parts',colors:['#FF5FA0']},
+    threequarter:{parts:[[0,90],[90,180],[180,270]],label:'¾ Three-Quarters',sub:'3 parts out of 4 equal parts',colors:['#9B59E8','#5B6EF5','#FF5FA0']},
+    whole:{parts:[[0,360]],label:'1 Whole',sub:'All 4 parts together = whole!',colors:['#00B4A0']},
+  };
+  const cfg=configs[type];
+  // draw dividers for quarters
+  const div = document.getElementById('fracPizza');
+  // draw parts
+  cfg.parts.forEach((p,i)=>{
+    const el=document.getElementById(`fp${i+1}`);
+    const path = p[1]===360
+      ? `M${cx},${cy} m-${r},0 a${r},${r},0,1,1,${2*r},0 a${r},${r},0,1,1,-${2*r},0`
+      : arcPath(cx,cy,r,p[0],p[1]);
+    el.setAttribute('d',path);
+    el.setAttribute('fill',cfg.colors[i]||slices[i].color);
+    el.setAttribute('opacity','0.88');
+  });
+  document.getElementById('fracLabel').textContent = cfg.label;
+  document.getElementById('fracSub').textContent = cfg.sub;
+}
+
+function animateFracBars(){
+  document.querySelectorAll('.frac-bar-fill').forEach((b,i)=>{
+    const w = b.dataset.w;
+    setTimeout(()=>b.style.width=w+'%', 200+i*150);
+  });
+}
+
+// ── CHARTS ────────────────────────────────────────────────────────────
+const COLORS=['#5B6EF5','#FF5FA0','#00B4A0','#FF7A2F','#9B59E8','#2ECC71','#E74C3C','#FFC72C'];
+
+function makeBarChart(containerId, data){
+  const c = document.getElementById(containerId);
+  if(c.children.length) return;
+  const max = Math.max(...data.map(d=>d.v));
+  data.forEach((item,i)=>{
+    const pct = (item.v/max)*100;
+    const row = document.createElement('div');
+    row.className='data-bar-row';
+    row.innerHTML=`
+      <div class="data-bar-label">${item.label}</div>
+      <div class="data-bar-track">
+        <div class="data-bar-fill" style="background:${COLORS[i%COLORS.length]};width:0%" data-w="${pct}">
+          ${item.v}
+        </div>
+      </div>
+      <div class="data-bar-val" style="color:${COLORS[i%COLORS.length]}">${item.v}</div>
+    `;
+    c.appendChild(row);
+    setTimeout(()=>{
+      row.querySelector('.data-bar-fill').style.width=pct+'%';
+    }, 300+i*120);
+  });
+}
+
+function buildCharts(){
+  makeBarChart('actChart',[
+    {label:'🎮 Games',v:12},{label:'📺 TV',v:8},
+    {label:'🌿 Walk',v:5},{label:'📖 Book',v:3},
+  ]);
+  makeBarChart('hobbyChart',[
+    {label:'💻 Comp Games',v:12},{label:'🎵 Music',v:9},
+    {label:'🎬 Movies',v:9},{label:'📮 Stamps',v:6},
+    {label:'🪙 Coins',v:4},
+  ]);
+  makeBarChart('cropChart',[
+    {label:'🌾 Wheat',v:9},{label:'🌾 Rice',v:9},
+    {label:'🌽 Bajra',v:8},{label:'🌾 Jowar',v:7},
+    {label:'🟢 Peas',v:6},{label:'🥜 Peanut',v:5},
+    {label:'🎋 Sugarcane',v:3},
+  ]);
+}
+
+function buildPicto(){
+  const c = document.getElementById('cricketPicto');
+  if(c.children.length) return;
+  const players=[
+    {n:'Sachin',r:70},{n:'Sehwag',r:80},{n:'Raina',r:60},
+    {n:'Zaheer',r:40},{n:'Yuvraj',r:60},
+  ];
+  players.forEach((p,pi)=>{
+    const row = document.createElement('div');
+    row.className='picto-row';
+    const icons = '🏏'.repeat(p.r/10);
+    row.innerHTML=`
+      <div class="picto-name">${p.n}</div>
+      <div class="picto-icons" id="pi${pi}"></div>
+      <div class="picto-count">${p.r}</div>
+    `;
+    c.appendChild(row);
+    const iconWrap = row.querySelector('.picto-icons');
+    const arr = icons.split('');
+    arr.forEach((ic,i)=>{
+      setTimeout(()=>{
+        const s = document.createElement('span');
+        s.className='picto-icon';
+        s.style.animationDelay=`${i*0.06}s`;
+        s.textContent=ic;
+        iconWrap.appendChild(s);
+      }, pi*120 + i*60 + 300);
+    });
+  });
+}
+
+// ── QUIZ ──────────────────────────────────────────────────────────────
+function checkQ(prefix, btn, result){
+  const opts = document.querySelectorAll(`#${prefix}-opts .quiz-opt`);
+  opts.forEach(o=>o.disabled=true);
+  btn.classList.add(result);
+  const fb = document.getElementById(`${prefix}-fb`);
+  if(result==='correct'){
+    fb.textContent = '🎉 Correct! Well done, Aarika!';
+    fb.style.color='#2ECC71';
+    // add a star
+    addStar();
+  } else {
+    fb.textContent = '❌ Not quite! Try again after reviewing the notes.';
+    fb.style.color='#E74C3C';
+    // show correct
+    opts.forEach(o=>{ if(o.onclick.toString().includes("'correct'")) o.classList.add('correct'); });
+  }
+}
+
+let starCount = 5;
+function addStar(){
+  starCount = Math.min(starCount+1, 10);
+  document.getElementById('starsBar').textContent = '⭐'.repeat(Math.min(starCount,10));
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', ()=>{
+  // init home
+  setTimeout(animateProgressBars, 400);
+  calcMins();
+});
+</script>
+</body>
+</html>
