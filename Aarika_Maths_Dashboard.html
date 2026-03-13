@@ -992,7 +992,7 @@ nav::-webkit-scrollbar-thumb{background:var(--blue);border-radius:4px}
   <!-- Cricket Pictograph -->
   <div class="card">
     <div class="card-header"><span class="card-icon">🏏</span><h3 class="card-title" style="color:var(--orange)">Cricket Runs Pictograph</h3></div>
-    <p style="font-size:13px;font-weight:600;color:var(--muted);margin-bottom:14px">Each 🏏 = 10 runs</p>
+    <p style="font-size:13px;font-weight:600;color:var(--muted);margin-bottom:14px">Each <svg width="16" height="16" viewBox="0 0 24 24" style="vertical-align:middle" xmlns="http://www.w3.org/2000/svg"><rect x="10.5" y="1" width="3" height="15" rx="1.5" fill="#E65100"/><path d="M8 16 Q12 14 16 16 L14 20 Q12 22 10 20 Z" fill="#FF7A2F"/></svg> = 10 runs</p>
     <div class="pictograph-grid" id="cricketPicto"></div>
     <div style="margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:10px">
       <div style="background:var(--green-l);border-radius:10px;padding:12px;border-left:4px solid var(--green)">
@@ -1306,7 +1306,6 @@ function buildPicto(){
   players.forEach((p,pi)=>{
     const row = document.createElement('div');
     row.className='picto-row';
-    const icons = '🏏'.repeat(p.r/10);
     row.innerHTML=`
       <div class="picto-name">${p.n}</div>
       <div class="picto-icons" id="pi${pi}"></div>
@@ -1314,16 +1313,19 @@ function buildPicto(){
     `;
     c.appendChild(row);
     const iconWrap = row.querySelector('.picto-icons');
-    const arr = icons.split('');
-    arr.forEach((ic,i)=>{
+    const count = p.r/10;
+    for(let i=0;i<count;i++){
       setTimeout(()=>{
         const s = document.createElement('span');
-        s.className='picto-icon';
+        s.className='picto-icon bat-icon';
         s.style.animationDelay=`${i*0.06}s`;
-        s.textContent=ic;
+        s.innerHTML=`<svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10.5" y="1" width="3" height="15" rx="1.5" fill="#E65100"/>
+          <path d="M8 16 Q12 14 16 16 L14 20 Q12 22 10 20 Z" fill="#FF7A2F"/>
+        </svg>`;
         iconWrap.appendChild(s);
       }, pi*120 + i*60 + 300);
-    });
+    }
   });
 }
 
